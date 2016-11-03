@@ -1,4 +1,6 @@
 'use strict';
+
+const Joi = require('joi');
 const User = require('../models/user');
 const Donation = require('../models/donation');
 const Candidate = require('../models/candidate');
@@ -12,6 +14,30 @@ exports.home = {
 };
 
 exports.donate = {
+
+  validate: {
+    payload: {
+      amount: Joi.string().required(),
+      method: Joi.string().required(),
+      candidate: Joi.string().required(),
+    },
+
+    options: {
+      abortEarly: false,
+    },
+
+    failAction: function (request, reply, source, error) {
+      Candidate.find({}).then(candidates => {
+        reply.view('home', {
+          title: 'Make a Donation',
+          candidates: candidates,
+          errors: error.data.details,
+        }).code(400);
+      }).catch(err => {
+        reply.redirect('/');
+      });
+    },
+  },
 
   handler: function (request, reply) {
     var userEmail = request.auth.credentials.loggedInUser;
@@ -54,8 +80,13 @@ exports.report = {
 
   handler: function (request, reply) {
     Donation.find({}).populate('donor').populate('candidate').then(allDonations => {
+
+      let sum = 0;
+      allDonations.forEach(d => { sum += d.amount; });
+
       reply.view('report', {
         title: 'Donations to Date',
+        sum: sum,
         donations: allDonations,
       });
     }).catch(err => {

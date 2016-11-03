@@ -3,15 +3,10 @@
     <div class="ui form six wide column">
       <div class="ui stacked segment">
         <form action="/donate" method="POST">
-          <div class="ui dropdown" name="amount">
-            <input type="hidden" name="amount">
-            <div class="text">Select Amount</div>
-            <i class="ui dropdown icon"></i>
-            <div class="menu">
-              <div class="item">50</div>
-              <div class="item">100</div>
-              <div class="item">1000</div>
-            </div>
+          <div class="ui right labeled input">
+            <div class="ui label">$</div>
+            <input placeholder="Amount" type="text" name="amount">
+            <div class="ui basic label">.00</div>
           </div>
           <div class="grouped inline fields">
             <div class="field">
@@ -37,6 +32,8 @@
                 </div>
               {{/each}}
             </div>
+          </div>
+          {{> formerrors}}
           <button class="ui blue submit button">Donate</button>
         </form>
       </div>
