@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "boom": "^4.2.0",
     "handlebars": "^4.0.5",
     "hapi": "^15.2.0",
     "hapi-auth-cookie": "^6.1.1",

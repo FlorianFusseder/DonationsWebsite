@@ -17,7 +17,7 @@ exports.donate = {
 
   validate: {
     payload: {
-      amount: Joi.string().required(),
+      amount: Joi.number().required(),
       method: Joi.string().required(),
       candidate: Joi.string().required(),
     },
@@ -29,7 +29,7 @@ exports.donate = {
     failAction: function (request, reply, source, error) {
       Candidate.find({}).then(candidates => {
         reply.view('home', {
-          title: 'Make a Donation',
+          title: 'Invalid Donation',
           candidates: candidates,
           errors: error.data.details,
         }).code(400);
