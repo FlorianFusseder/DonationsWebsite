@@ -10,8 +10,9 @@ suite('User API tests', function () {
   let users = fixtures.users;
   let newUser = fixtures.newUser;
 
-  //const donationService = new DonationService('http://localhost:4000');
-  const donationService = new DonationService(fixtures.donationService);
+  const donationService = new DonationService('http://localhost:4000');
+
+  //const donationService = new DonationService(fixtures.donationService);
 
   beforeEach(function () {
     donationService.deleteAllUsers();
@@ -63,7 +64,8 @@ suite('User API tests', function () {
 
     const allUsers = donationService.getUsers();
     for (var i = 0; i < users.length; i++) {
-      assert(_.some([allUsers[i]], users[i]), 'returnedCandidate must be a superset of newCandidate');
+      assert(_.some([allUsers[i]], users[i]),
+          'returnedCandidate must be a superset of newCandidate');
     }
   });
 
