@@ -1,10 +1,13 @@
 'use strict'
-var Donation = require('../models/donation');
-var boom = require('boom');
+const Donation = require('../models/donation');
+const boom = require('boom');
+const utils = require('./utils.js');
 
 exports.findAllDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Donation.find({}).populate('donor').populate('candidate').then(donations => {
@@ -18,10 +21,12 @@ exports.findAllDonations = {
 
 exports.findDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: (request, reply) => {
-    Donation.find({ candidate: request.params.id }).then(donations => {
+    Donation.find({ candidate: request.params.id }).populate('donor').populate('candidate').then(donations => {
       reply(donations);
     }).catch(err => {
       reply(Boom.badImplementation('error accessing db'));
@@ -32,11 +37,14 @@ exports.findDonations = {
 
 exports.makeDonation = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
-  handler: (request, reply) => {
+  handler: function (request, reply) {
     const donation = new Donation(request.payload);
     donation.candidate = request.params.id;
+    donation.donor = utils.getUserIdFromRequest(request);
     donation.save().then(newDonation => {
       reply(newDonation).code(201);
     }).catch(err => {
@@ -47,7 +55,9 @@ exports.makeDonation = {
 
 exports.deleteOneDonation = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: (request, reply) => {
     Donation.remove({ _id: request.params.id })
@@ -58,7 +68,9 @@ exports.deleteOneDonation = {
 
 exports.deleteDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Donation.remove({ candidate: request.params.id }).then(result => {
@@ -71,7 +83,9 @@ exports.deleteDonations = {
 
 exports.deleteAllDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Donation.remove({}).then(err => {

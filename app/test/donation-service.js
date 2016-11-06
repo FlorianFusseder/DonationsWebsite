@@ -48,6 +48,10 @@ class DonationService {
     return this.httpService.delete('/api/users/' + id);
   }
 
+  authenticate(user) {
+    return this.httpService.post('/api/users/authenticate', user);
+  }
+
   makeDonation(id, donation) {
     return this.httpService.post('/api/candidates/' + id + '/donations', donation);
   }
@@ -67,6 +71,15 @@ class DonationService {
   deleteOneDonation(id) {
     return this.httpService.delete('/api/donations/' + id);
   }
+
+  login(user) {
+    return this.httpService.setAuth('/api/users/authenticate', user);
+  }
+
+  logout() {
+    this.httpService.clearAuth();
+  }
+
 }
 
 module.exports = DonationService;

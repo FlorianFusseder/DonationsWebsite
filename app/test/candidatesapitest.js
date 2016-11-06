@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const assert = require('chai').assert;
 const DonationService = require('./donation-service');
@@ -7,16 +7,20 @@ const _ = require('lodash');
 
 suite('Candidate API tests', function () {
 
+  let users = fixtures.users;
   let candidates = fixtures.candidates;
   let newCandidate = fixtures.newCandidate;
+
   const donationService = new DonationService(fixtures.donationService);
 
   beforeEach(function () {
+    donationService.login(users[0]);
     donationService.deleteAllCandidates();
   });
 
   afterEach(function () {
     donationService.deleteAllCandidates();
+    donationService.logout();
   });
 
   test('create a candidate', function () {
