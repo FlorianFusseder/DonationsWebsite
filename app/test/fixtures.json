@@ -1,6 +1,6 @@
 {
 
-  "donationService": "https://fierce-mountain-54499.herokuapp.com",
+  "donationService": "http://localhost:4000",
 
   "users": [
     {

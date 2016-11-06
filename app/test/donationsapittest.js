@@ -26,7 +26,8 @@ suite('Donation API tests', function () {
     donationService.makeDonation(returnedCandidate._id, donations[0]);
     const returnedDonations = donationService.getDonations(returnedCandidate._id);
     assert.equal(returnedDonations.length, 1);
-    assert(_.some([returnedDonations[0]], donations[0]), 'returned donation must be a superset of donation');
+    assert(_.some([returnedDonations[0]], donations[0]),
+        'returned donation must be a superset of donation');
   });
 
   test('create multiple donations', function () {
@@ -38,8 +39,35 @@ suite('Donation API tests', function () {
     const returnedDonations = donationService.getDonations(returnedCandidate._id);
     assert.equal(returnedDonations.length, donations.length);
     for (var i = 0; i < donations.length; i++) {
-      assert(_.some([returnedDonations[i]], donations[i]), 'returned donation must be a superset of donation');
+      assert(_.some([returnedDonations[i]], donations[i]),
+          'returned donation must be a superset of donation');
     }
+  });
+
+  test('delete a donation', () => {
+    const returnedCandidate = donationService.createCandidate(newCandidate);
+    for (var i = 0; i < donations.length; i++) {
+      donationService.makeDonation(returnedCandidate._id, donations[i]);
+    }
+
+    const d1 = donationService.getDonations(returnedCandidate._id);
+    assert.equal(d1.length, donations.length);
+
+    donationService.deleteOneDonation(d1[1]._id);
+    const d2 = donationService.getDonations(returnedCandidate._id);
+
+    assert.equal(d2.length, d1.length - 1);
+  });
+
+  test('delete donations for user', function () {
+    const returnedCandidate = donationService.createCandidate(newCandidate);
+    for (var i = 0; i < donations.length; i++) {
+      donationService.makeDonation(returnedCandidate._id, donations[i]);
+    }
+
+    donationService.deleteDonations(returnedCandidate._id);
+    const d = donationService.getDonations(returnedCandidate._id);
+    assert.equal(d.length, 0);
   });
 
   test('delete all donations', function () {

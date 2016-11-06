@@ -45,6 +45,30 @@ exports.makeDonation = {
   },
 };
 
+exports.deleteOneDonation = {
+
+  auth: false,
+
+  handler: (request, reply) => {
+    Donation.remove({ _id: request.params.id })
+        .then(donation => reply(donation).code(204))
+            .catch(err => reply(Boom.notFound('id not found')));
+  },
+};
+
+exports.deleteDonations = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    Donation.remove({ candidate: request.params.id }).then(result => {
+      reply().code(204);
+    }).catch(err => {
+      reply(Boom.badImplementation('error removing Donations'));
+    });
+  },
+};
+
 exports.deleteAllDonations = {
 
   auth: false,
