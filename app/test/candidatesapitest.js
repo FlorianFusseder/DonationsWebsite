@@ -9,8 +9,7 @@ suite('Candidate API tests', function () {
 
   let candidates = fixtures.candidates;
   let newCandidate = fixtures.newCandidate;
-
-  const donationService = new DonationService('http://localhost:4000');
+  const donationService = new DonationService(fixtures.donationService);
 
   beforeEach(function () {
     donationService.deleteAllCandidates();

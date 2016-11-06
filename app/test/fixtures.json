@@ -1,5 +1,7 @@
 {
-  "donationService": "https://stormy-brushlands-56991.herokuapp.com",
+
+  "donationService": "https://fierce-mountain-54499.herokuapp.com",
+
   "users": [
     {
       "firstName": "Homer",
@@ -32,15 +34,32 @@
       "office": "President"
     }
   ],
+
   "newCandidate": {
     "firstName": "Barnie",
     "lastName": "Grumble",
     "office": "President"
   },
+
   "newUser": {
     "firstName": "Maggie",
     "lastName": "Simpson",
     "email": "maggie@simpson.com",
     "password": "secret"
-  }
+  },
+
+  "donations": [
+    {
+      "amount": 40,
+      "method": "paypal"
+    },
+    {
+      "amount": 90,
+      "method": "direct"
+    },
+    {
+      "amount": 430,
+      "method": "paypal"
+    }
+  ]
 }

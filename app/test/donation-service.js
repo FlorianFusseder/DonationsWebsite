@@ -1,7 +1,6 @@
 'use strict';
 
 const SyncHttpService = require('./sync-http-client');
-const baseUrl = 'http://localhost:4000';
 
 class DonationService {
 
@@ -47,6 +46,18 @@ class DonationService {
 
   deleteOneUser(id) {
     return this.httpService.delete('/api/users/' + id);
+  }
+
+  makeDonation(id, donation) {
+    return this.httpService.post('/api/candidates/' + id + '/donations', donation);
+  }
+
+  getDonations(id) {
+    return this.httpService.get('/api/candidates/' + id + '/donations');
+  }
+
+  deleteAllDonations() {
+    return this.httpService.delete('/api/donations');
   }
 }
 
